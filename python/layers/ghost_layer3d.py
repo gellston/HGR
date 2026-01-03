@@ -13,7 +13,7 @@ class GhostLayer3D(torch.nn.Module):
         super().__init__()
 
         if ratio < 1:
-            raise ValueError("ratio must be >= 1")
+            raise Exception("ratio must be >= 1")
         self.oup = out_channels
 
 
@@ -21,7 +21,7 @@ class GhostLayer3D(torch.nn.Module):
             stride_3d = (stride, stride, stride)
         else:
             if len(stride) != 3:
-                raise ValueError("stride must be int or tuple of length 3")
+                raise Exception("stride must be int or tuple of length 3")
             stride_3d = tuple(int(s) for s in stride)
 
         init_channels = int(math.ceil(out_channels / ratio))
@@ -50,7 +50,7 @@ class GhostLayer3D(torch.nn.Module):
                     kernel_size=(1, 3, 3),
                     stride=(1, 1, 1),
                     padding=(0, 1, 1),
-                    groups=init_channels,     # depthwise over channels
+                    groups=init_channels,     # 뎁스와이즈 컨볼루션 
                     bias=False
                 ),
                 torch.nn.BatchNorm3d(new_channels),
