@@ -1,0 +1,10 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/API/">
+    <Project Path="HGR.Native.Cu118/HGR.Native.Cu118.vcxproj" />
+  </Folder>
+  <Folder Name="/Console/" />
+</Solution>
