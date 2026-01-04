@@ -1,14 +1,6 @@
-
-
-
 import torch
 
-
-
-
 from layers.ghost_layer3d import GhostLayer3D
-
-
 
 class GhostNet3D(torch.nn.Module):
     def __init__(self, 
@@ -47,19 +39,22 @@ class GhostNet3D(torch.nn.Module):
             GhostLayer3D(in_channels=80, out_channels=80),
             GhostLayer3D(in_channels=80, out_channels=80),
             GhostLayer3D(in_channels=80, out_channels=80),
+            GhostLayer3D(in_channels=80, out_channels=112),
+            GhostLayer3D(in_channels=112, out_channels=112),
         )
 
         # 시간축 frame 8로 유지
         # 공간 크기 8x4
         self.layer4 = torch.nn.Sequential(
-            GhostLayer3D(in_channels=80, out_channels=80, stride=(1,2,2)),
-            GhostLayer3D(in_channels=80, out_channels=80),
-            GhostLayer3D(in_channels=80, out_channels=80),
-            GhostLayer3D(in_channels=80, out_channels=80),
+            GhostLayer3D(in_channels=112, out_channels=160, stride=(1,2,2)),
+            GhostLayer3D(in_channels=160, out_channels=160),
+            GhostLayer3D(in_channels=160, out_channels=160),
+            GhostLayer3D(in_channels=160, out_channels=160),
+            GhostLayer3D(in_channels=160, out_channels=160),
         )
 
         self.gap = torch.nn.AdaptiveAvgPool3d((1,1,1))
-        self.fc = torch.nn.Linear(80, class_num)
+        self.fc = torch.nn.Linear(160, class_num)
         
 
     def forward(self, x):

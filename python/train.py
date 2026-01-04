@@ -2,7 +2,7 @@ import torch
 import os
 
 from torch.utils.data import DataLoader
-from dataloder.jester_loader import JesterDataset
+from datasets.jester_loader import JesterDataset
 from model.ghostnet3d import GhostNet3D
 from model.softmax_model import SoftmaxModel
 
@@ -17,7 +17,7 @@ print(f"현재 사용 중인 디바이스: {device}")
 
 batch_size = 8
 epochs = 100
-learning_rate = 0.003
+learning_rate = 0.0003
 image_width = 128
 image_height = 64
 image_channel = 3
@@ -31,12 +31,21 @@ onnx_model_path = "C://github//HGR//python//results//model.onnx"
 onnx_quant_model_path =  "C://github//HGR//python//results//quant_model.onnx"
 
 
-dummy_input = torch.randn(size=(3, frames, image_channel, image_height, image_width)).to(device)
+dummy_input = torch.randn(size=(3, image_channel, frames, image_height, image_width)).to(device)
 
-train_ds = JesterDataset(dataset_path, split="train", num_frames=16, image_width=image_width, image_height=image_height, training=True)
+train_ds = JesterDataset(dataset_path, 
+                         split="train", 
+                         num_frames=16, 
+                         image_width=image_width, 
+                         image_height=image_height, 
+                         training=True)
 train_dl = DataLoader(train_ds, batch_size=batch_size, shuffle=True, drop_last=True)
 
-valid_ds = JesterDataset(dataset_path, split="validation", num_frames=16, image_width=image_width, image_height=image_height, training=False)
+valid_ds = JesterDataset(dataset_path, split="validation", 
+                         num_frames=16, 
+                         image_width=image_width, 
+                         image_height=image_height, 
+                         training=False)
 valid_dl = DataLoader(valid_ds, batch_size=batch_size, shuffle=True, drop_last=True)
 
 
