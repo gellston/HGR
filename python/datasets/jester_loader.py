@@ -144,19 +144,25 @@ class JesterDataset(Dataset):
         n = self.num_frames
 
         if T >= n:
-            seg = T / n
-            indices = []
-            for i in range(n):
-                start = int(round(i * seg))
-                end = int(round((i + 1) * seg)) - 1
-                start = max(0, min(start, T - 1))
-                end = max(0, min(end, T - 1))
-                if end < start:
-                    end = start
-                if self.training and self.split == "train":
-                    indices.append(random.randint(start, end))
-                else:
-                    indices.append((start + end) // 2)
+            if self.training and self.split == "train":
+                # 1) stride 랜덤 (원하면 [1,2,3]도 가능)
+                stride = random.choice([1, 2])
+
+                # 2) 마지막 프레임이 T-1을 넘지 않게 start 범위 계산
+                max_start = T - stride * (n - 1) - 1
+
+                # 만약 stride가 너무 커서 불가능하면 stride=1로 fallback
+                if max_start < 0:
+                    stride = 1
+                    max_start = T - (n - 1) - 1
+
+                start = random.randint(0, max(0, max_start))
+                indices = [start + k * stride for k in range(n)]
+            else:
+                # validation/test: 항상 같은 방식으로 고정 (재현성 + 안정)
+                stride = 1
+                start = max(0, (T - n) // 2)
+                indices = [start + k * stride for k in range(n)]
         else:
             indices = list(range(T)) + [T - 1] * (n - T)
 

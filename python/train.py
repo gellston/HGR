@@ -15,7 +15,7 @@ print(f"현재 사용 중인 디바이스: {device}")
 
 
 
-batch_size = 8
+batch_size = 32
 epochs = 100
 learning_rate = 0.0003
 image_width = 128
@@ -23,30 +23,32 @@ image_height = 64
 image_channel = 3
 class_num = 27
 frames = 16
-weight_decay = 0.0001
+weight_decay = 3e-4
 
 dataset_path = "C://github//dataset//jester"  
+
+
 weight_path = "C://github//HGR//python//results//weights.pth"
 onnx_model_path = "C://github//HGR//python//results//model.onnx"
 onnx_quant_model_path =  "C://github//HGR//python//results//quant_model.onnx"
 
 
-dummy_input = torch.randn(size=(3, image_channel, frames, image_height, image_width)).to(device)
+dummy_input = torch.randn(size=(1, image_channel, frames, image_height, image_width)).to(device)
 
 train_ds = JesterDataset(dataset_path, 
                          split="train", 
-                         num_frames=16, 
+                         num_frames=frames, 
                          image_width=image_width, 
                          image_height=image_height, 
                          training=True)
 train_dl = DataLoader(train_ds, batch_size=batch_size, shuffle=True, drop_last=True)
 
 valid_ds = JesterDataset(dataset_path, split="validation", 
-                         num_frames=16, 
+                         num_frames=frames, 
                          image_width=image_width, 
                          image_height=image_height, 
                          training=False)
-valid_dl = DataLoader(valid_ds, batch_size=batch_size, shuffle=True, drop_last=True)
+valid_dl = DataLoader(valid_ds, batch_size=batch_size, shuffle=False, drop_last=False)
 
 
 model = GhostNet3D(in_channels=image_channel, class_num=class_num).to(device)
@@ -56,8 +58,8 @@ if os.path.exists(weight_path):
 
 
 
-loss_fn = torch.nn.CrossEntropyLoss()
-optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate, weight_decay=weight_decay)
+loss_fn = torch.nn.CrossEntropyLoss(label_smoothing=0.1)
+optimizer = torch.optim.AdamW(model.parameters(), lr=learning_rate, weight_decay=weight_decay)
 
 best_valid_acc = -1.0
 
@@ -95,18 +97,18 @@ for epoch in range(epochs):
     valid_total = 0
     valid_loss_sum = 0.0
 
+    with torch.inference_mode():
+        for x, y in valid_dl:
+            x = x.to(device, non_blocking=True)
+            y = y.to(device, non_blocking=True)
 
-    for x, y in valid_dl:
-        x = x.to(device, non_blocking=True)
-        y = y.to(device, non_blocking=True)
+            logits = model(x)
+            loss = loss_fn(logits, y)
 
-        logits = model(x)
-        loss = loss_fn(logits, y)
-
-        valid_loss_sum += loss.item() * x.size(0)
-        preds = logits.argmax(dim=1)
-        valid_correct += (preds == y).sum().item()
-        valid_total += x.size(0)
+            valid_loss_sum += loss.item() * x.size(0)
+            preds = logits.argmax(dim=1)
+            valid_correct += (preds == y).sum().item()
+            valid_total += x.size(0)
 
     valid_loss = valid_loss_sum / max(1, valid_total)
     valid_acc = valid_correct / max(1, valid_total)

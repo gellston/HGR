@@ -54,7 +54,9 @@ class GhostNet3D(torch.nn.Module):
         )
 
         self.gap = torch.nn.AdaptiveAvgPool3d((1,1,1))
+        self.drop = torch.nn.Dropout(p=0.3)
         self.fc = torch.nn.Linear(160, class_num)
+        
         
 
     def forward(self, x):
@@ -70,6 +72,7 @@ class GhostNet3D(torch.nn.Module):
 
         x = self.gap(x)
         x = x.view(x.size(0), -1)
+        x = self.drop(x)
         x = self.fc(x)
 
         return x
