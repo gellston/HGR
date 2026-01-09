@@ -53,9 +53,7 @@
 > Both packages target **Windows x64**. GPU inference requires a compatible NVIDIA GPU environment (see below).
 
 ## Demonstration
-
-
-<video src="https://github.com/gellston/HGR/raw/refs/heads/main/demo/cpp_test.mp4" controls width="650"></video>
+[![Image Alt Text](https://img.youtube.com/vi/CjE8BRevUUY/hqdefault.jpg)](https://youtu.be/CjE8BRevUUY)
 
 
 
