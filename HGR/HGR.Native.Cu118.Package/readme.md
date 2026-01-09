@@ -53,7 +53,7 @@
 > Both packages target **Windows x64**. GPU inference requires a compatible NVIDIA GPU environment (see below).
 
 ## Demonstration
-
+https://www.youtube.com/watch?v=CjE8BRevUUY
 
 ### Training Scripts
 - Training scripts used for model development are available here:
