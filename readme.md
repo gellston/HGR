@@ -53,7 +53,9 @@
 > Both packages target **Windows x64**. GPU inference requires a compatible NVIDIA GPU environment (see below).
 
 ## Demonstration
-https://www.youtube.com/watch?v=CjE8BRevUUY
+
+<iframe width="1335" height="751" src="https://www.youtube.com/embed/CjE8BRevUUY" title="HGR (Hand Gesture Recognition)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
 
 ### Training Scripts
 - Training scripts used for model development are available here:
