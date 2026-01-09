@@ -9,3 +9,10 @@
 /HGR/HGR.Native.Cu118/x64/Debug
 /HGR/vcpkg_installed
 /HGR/x64/Debug
+/HGR/HGR.Native.Cu118/x64/Release
+/HGR/HGR.Native.Cu118.Package/build/native/bin/x64
+/HGR/HGR.Native.Cu118.Package/build/native/include/hgr
+/HGR/HGR.Native.Cu118.Package/build/native/lib/x64
+/HGR/packages/Microsoft.ML.OnnxRuntime.Gpu.Windows.1.17.3/buildTransitive/native/include
+/HGR/packages/Microsoft.ML.OnnxRuntime.Gpu.Windows.1.17.3
+/HGR/x64/Release
