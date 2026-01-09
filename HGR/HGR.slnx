@@ -11,4 +11,7 @@
       <BuildDependency Project="HGR.Native.Cu118/HGR.Native.Cu118.vcxproj" />
     </Project>
   </Folder>
+  <Folder Name="/Inference/">
+    <Project Path="CppInference/CppInference.vcxproj" Id="8e18050e-a534-4d78-bc93-036f90e26d42" />
+  </Folder>
 </Solution>
