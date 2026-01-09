@@ -2,16 +2,16 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
     <id>HGR.Native.Cu118</id>
-    <version>1.0.6</version>
+    <version>1.0.0</version>
     <title></title>
     <authors>gellston</authors>
     <owners></owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <licenseUrl>https://github.com/gellston/LLE/blob/main/LICENSE.txt</licenseUrl>
+    <licenseUrl>https://github.com/gellston/HGR/blob/main/LICENSE.txt</licenseUrl>
     <icon>icon.png</icon>
     <readme>readme.md</readme>
-    <projectUrl>https://github.com/gellston/LLE</projectUrl>
-    <description>Low Light Enhancement Deeplearning Model Inference API</description>
+    <projectUrl>https://github.com/gellston/HGR</projectUrl>
+    <description>Hand Gesture Recognition Deeplearning Model Inference API</description>
     <copyright>Copyright (c) 2025–present gellston</copyright>
     <tags>c++,c++/cli,ai,deeplearning,onnx</tags>
   </metadata>
@@ -22,7 +22,7 @@
     <file src="build\native\bin\x64\libsharpyuv.dll" target="build\native\bin\x64\libsharpyuv.dll" />
     <file src="build\native\bin\x64\libwebp.dll" target="build\native\bin\x64\libwebp.dll" />
     <file src="build\native\bin\x64\libwebpdecoder.dll" target="build\native\bin\x64\libwebpdecoder.dll" />
-    <file src="build\native\bin\x64\HGR.Native.Cu118.dll" target="build\native\bin\x64\LLE.Native.Cu118.dll" />
+    <file src="build\native\bin\x64\LLE.Native.Cu118.dll" target="build\native\bin\x64\LLE.Native.Cu118.dll" />
     <file src="build\native\bin\x64\onnxruntime.dll" target="build\native\bin\x64\onnxruntime.dll" />
     <file src="build\native\bin\x64\onnxruntime_providers_cuda.dll" target="build\native\bin\x64\onnxruntime_providers_cuda.dll" />
     <file src="build\native\bin\x64\onnxruntime_providers_shared.dll" target="build\native\bin\x64\onnxruntime_providers_shared.dll" />
@@ -35,15 +35,16 @@
     <file src="build\native\bin\x64\tiff.dll" target="build\native\bin\x64\tiff.dll" />
     <file src="build\native\bin\x64\zlib1.dll" target="build\native\bin\x64\zlib1.dll" />
     <file src="build\native\bin\x64\zlibwapi.dll" target="build\native\bin\x64\zlibwapi.dll" />
-    <file src="build\native\include\lle\image.h" target="build\native\include\lle\image.h" />
-    <file src="build\native\include\lle\lle.h" target="build\native\include\lle\lle.h" />
-    <file src="build\native\include\lle\lle_api.h" target="build\native\include\lle\lle_api.h" />
-    <file src="build\native\include\lle\memoryBlock.h" target="build\native\include\lle\memoryBlock.h" />
-    <file src="build\native\include\lle\memoryPool.h" target="build\native\include\lle\memoryPool.h" />
-    <file src="build\native\include\lle\memoryToken.h" target="build\native\include\lle\memoryToken.h" />
-    <file src="build\native\lib\x64\LLE.Native.Cu118.lib" target="build\native\lib\x64\LLE.Native.Cu118.lib" />
-    <file src="build\native\HGR.Native.Cu118.props" target="build\native\LLE.Native.Cu118.props" />
-    <file src="build\native\HGR.Native.Cu118.targets" target="build\native\LLE.Native.Cu118.targets" />
+    <file src="build\native\include\hgr\clipSampler.h" target="build\native\include\hgr\clipSampler.h" />
+    <file src="build\native\include\hgr\hgr.h" target="build\native\include\hgr\hgr.h" />
+    <file src="build\native\include\hgr\hgr_api.h" target="build\native\include\hgr\hgr_api.h" />
+    <file src="build\native\include\hgr\image.h" target="build\native\include\hgr\image.h" />
+    <file src="build\native\include\hgr\memoryBlock.h" target="build\native\include\hgr\memoryBlock.h" />
+    <file src="build\native\include\hgr\memoryPool.h" target="build\native\include\hgr\memoryPool.h" />
+    <file src="build\native\include\hgr\memoryToken.h" target="build\native\include\hgr\memoryToken.h" />
+    <file src="build\native\lib\x64\HGR.Native.Cu118.lib" target="build\native\lib\x64\HGR.Native.Cu118.lib" />
+    <file src="build\native\HGR.Native.Cu118.props" target="build\native\HGR.Native.Cu118.props" />
+    <file src="build\native\HGR.Native.Cu118.targets" target="build\native\HGR.Native.Cu118.targets" />
     <file src="licenses\CUDA-EULA.txt" target="licenses\CUDA-EULA.txt" />
     <file src="licenses\cudnn-LICENSE.txt" target="licenses\cudnn-LICENSE.txt" />
     <file src="licenses\onnxruntime-LICENSE.txt" target="licenses\onnxruntime-LICENSE.txt" />

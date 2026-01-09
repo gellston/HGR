@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>18.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{e8222301-6569-4d90-9600-3f587274720d}</ProjectGuid>
-    <RootNamespace>HGRNativeCu118</RootNamespace>
+    <ProjectGuid>{688ef749-18c7-4077-b5a9-7a3cc9841037}</ProjectGuid>
+    <RootNamespace>NativeTest</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.26100.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -40,14 +40,14 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v145</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
     <VCToolsVersion>14.50.35717</VCToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v145</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -76,10 +76,10 @@
     <VcpkgEnableManifest>true</VcpkgEnableManifest>
   </PropertyGroup>
   <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <VcpkgInstalledDir>$(SolutionDir)\vcpkg_installed</VcpkgInstalledDir>
+    <VcpkgInstalledDir>$(SolutionDir)vcpkg_installed</VcpkgInstalledDir>
   </PropertyGroup>
   <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <VcpkgInstalledDir>$(SolutionDir)\vcpkg_installed</VcpkgInstalledDir>
+    <VcpkgInstalledDir>$(SolutionDir)vcpkg_installed</VcpkgInstalledDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -113,21 +113,17 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;HGR_NATIVE_EXPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)packages\Microsoft.ML.OnnxRuntime.Gpu.Windows.1.17.3\buildTransitive\native\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)HGR.Native.Cu118</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)packages\Microsoft.ML.OnnxRuntime.Gpu.Windows.1.17.3\runtimes\win-x64\native;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>onnxruntime.lib;onnxruntime_providers_cuda.lib;onnxruntime_providers_shared.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OutDir)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>HGR.Native.Cu118.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <PostBuildEvent>
-      <Command>xcopy /Y /E /I "$(SolutionDir)packages\Microsoft.ML.OnnxRuntime.Gpu.Windows.1.17.3\runtimes\win-x64\native\*.dll" "$(OutDir)"
-</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -135,53 +131,20 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;HGR_NATIVE_EXPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)packages\Microsoft.ML.OnnxRuntime.Gpu.Windows.1.17.3\buildTransitive\native\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)HGR.Native.Cu118</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)packages\Microsoft.ML.OnnxRuntime.Gpu.Windows.1.17.3\runtimes\win-x64\native;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>onnxruntime.lib;onnxruntime_providers_cuda.lib;onnxruntime_providers_shared.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OutDir)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>HGR.Native.Cu118.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <PostBuildEvent>
-      <Command>xcopy /Y /E /I "$(SolutionDir)packages\Microsoft.ML.OnnxRuntime.Gpu.Windows.1.17.3\runtimes\win-x64\native\*.dll" "$(OutDir)"
-xcopy /Y /E /I "$(SolutionDir)HGR.Native.Cu118\hgr" "$(SolutionDir)HGR.Native.Cu118.Package\build\native\include\hgr"
-xcopy /Y /E /I "$(OutDir)*.lib" "$(SolutionDir)HGR.Native.Cu118.Package\build\native\lib\x64\"
-xcopy /Y /E /I "$(OutDir)*.dll" "$(SolutionDir)HGR.Native.Cu118.Package\build\native\bin\x64\"
-
-
-
-xcopy /Y /E /I "$(OutDir)*.dll" "$(SolutionDir)HGR.Managed.Cu118.Package\runtimes\win-x64\native\"
-
-copy /Y "$(OutDir)zlib1.dll" "$(SolutionDir)HGR.Managed.Cu118.Package\runtimes\win-x64\native\zlibwapi.dll"
-copy /Y "$(OutDir)zlib1.dll" "$(SolutionDir)HGR.Native.Cu118.Package\build\native\bin\x64\zlibwapi.dll"
-</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="HGR.Native.Cu118.cpp" />
-    <ClCompile Include="clipSampler.cpp" />
-    <ClCompile Include="memoryPool.cpp" />
-    <ClCompile Include="memoryBlock.cpp" />
-    <ClCompile Include="memoryToken.cpp" />
-    <ClCompile Include="image.cpp" />
-    <ClCompile Include="hgr.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="hgr\clipSampler.h" />
-    <ClInclude Include="hgr\hgr.h" />
-    <ClInclude Include="hgr\hgr_api.h" />
-    <ClInclude Include="hgr\image.h" />
-    <ClInclude Include="hgr\memoryBlock.h" />
-    <ClInclude Include="hgr\memoryPool.h" />
-    <ClInclude Include="hgr\memoryToken.h" />
-    <ClInclude Include="models\ghost3d.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
+    <ClCompile Include="NativeTest.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

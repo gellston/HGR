@@ -5,6 +5,8 @@
 
 #include <memory>
 #include <string>
+#include <vector>
+#include <tuple>
 
 #include "hgr_api.h"
 #include "image.h"
@@ -19,6 +21,14 @@ namespace hgrapi {
 		enum device {
 			cpu,
 			cuda
+		};
+
+
+		struct result {
+			int index;
+			float prob;
+			std::string name;
+			std::vector<float> probs;
 		};
 
 		class memoryPool;
@@ -77,7 +87,7 @@ namespace hgrapi {
 			/// </summary>
 			/// <param name="path"></param>
 			/// <returns></returns>
-			HGR_NATIVE_API std::tuple<int, float, std::string, std::vector<float>> predict(const std::vector<hgrapi::v1::image_ptr>& frames);
+			HGR_NATIVE_API result predict(const std::vector<hgrapi::v1::image_ptr>& frames);
 
 			
 			/// <summary>

@@ -278,7 +278,7 @@ void hgrapi::v1::hgr::setEmaAlpha(float alpha) {
 }
 
 
-std::tuple<int, float, std::string, std::vector<float>> hgrapi::v1::hgr::predict(const std::vector<hgrapi::v1::image_ptr>& frames) {
+hgrapi::v1::result hgrapi::v1::hgr::predict(const std::vector<hgrapi::v1::image_ptr>& frames) {
 
     std::scoped_lock lock(this->impl->mtx_run);
 

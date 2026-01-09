@@ -6,5 +6,9 @@
   <Folder Name="/API/">
     <Project Path="HGR.Native.Cu118/HGR.Native.Cu118.vcxproj" Id="e8222301-6569-4d90-9600-3f587274720d" />
   </Folder>
-  <Folder Name="/Console/" />
+  <Folder Name="/Console/">
+    <Project Path="NativeTest/NativeTest.vcxproj" Id="688ef749-18c7-4077-b5a9-7a3cc9841037">
+      <BuildDependency Project="HGR.Native.Cu118/HGR.Native.Cu118.vcxproj" />
+    </Project>
+  </Folder>
 </Solution>

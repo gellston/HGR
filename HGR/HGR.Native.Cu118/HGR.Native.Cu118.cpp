@@ -6,3 +6,5 @@
 #include "hgr/memoryToken.h"
 
 #include "hgr/clipSampler.h"
+
+#include "hgr/hgr.h"
