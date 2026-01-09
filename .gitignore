@@ -17,3 +17,4 @@
 /HGR/packages/Microsoft.ML.OnnxRuntime.Gpu.Windows.1.17.3
 /HGR/x64/Release
 /HGR/NativeTest/x64
+*.nupkg
