@@ -1,22 +1,22 @@
-<div align="center">
+<div align="center"> 
 
-<img src="https://raw.githubusercontent.com/gellston/LLE/main/icon.png" alt="LLE Icon" width="140" />
+<img src="https://raw.githubusercontent.com/gellston/HGR/main/icon.png" alt="HGR Icon" width="140" />
 
-  # LLE (Low Light Enhancement)
+  # HGR (Hand Gesture Recognition)
 
-  AI-based Low-Light Enhancement inference API for <b>Windows x64</b>.
+  AI-based Hand Gesture Recognition inference API for <b>Windows x64</b>.
 
   <!-- Native (Cu118) -->
-  <a href="https://www.nuget.org/packages/LLE.Native.Cu118">
-    <img src="https://img.shields.io/nuget/v/LLE.Native.Cu118.svg?style=for-the-badge&logo=nuget&label=NuGet%20Native%20Cu118" />
+  <a href="https://www.nuget.org/packages/HGR.Native.Cu118">
+    <img src="https://img.shields.io/nuget/v/HGR.Native.Cu118.svg?style=for-the-badge&logo=nuget&label=NuGet%20Native%20Cu118" />
   </a>
   <img src="https://img.shields.io/badge/CUDA-11.8-76B900?style=for-the-badge&logo=nvidia" />
 
   <br/>
 
   <!-- Managed (Cuda118) -->
-  <a href="https://www.nuget.org/packages/LLE.Managed.Cu118">
-    <img src="https://img.shields.io/nuget/v/LLE.Managed.Cu118.svg?style=for-the-badge&logo=nuget&label=NuGet%20Managed%20Cuda118" />
+  <a href="https://www.nuget.org/packages/HGR.Managed.Cu118">
+    <img src="https://img.shields.io/nuget/v/HGR.Managed.Cu118.svg?style=for-the-badge&logo=nuget&label=NuGet%20Managed%20Cuda118" />
   </a>
   <img src="https://img.shields.io/badge/CUDA-11.8-76B900?style=for-the-badge&logo=nvidia" />
 
@@ -32,50 +32,36 @@
 
 ## Overview
 
-**LLE** is a low-light image enhancement library that provides an **inference API** for an AI model trained in **Python**.
+**HGR** is a hand-gesture recognition library that provides an **inference API** for an AI model trained in **Python**.
 
-- Name: **LLE (Low Light Enhancement)**
+- Name: **HGR (Hand Gesture Recognition)**
 - Author / Maintainer: **gellston**
 - Examples:
-  * [`CppInference`](https://github.com/gellston/LLE/tree/main/LLE/CppInference)
-  * [`CSharpInference`](https://github.com/gellston/LLE/tree/main/LLE/CSharpInference)
+  * [`CppInference`](https://github.com/gellston/HGR/tree/main/HGR/CppInference)
+  * [`CSharpInference`](https://github.com/gellston/HGR/tree/main/HGR/CSharpInference)
+  * [`FSharpInference`](https://github.com/gellston/HGR/tree/main/HGR/FSharpInference)
+  * [`VBInference`](https://github.com/gellston/HGR/tree/main/HGR/VBInference)
 
 ### NuGet Packages (Native vs Managed)
 
-- **`LLE.Native.Cu118`** *(C++ / native)*  
-  Native runtime + C++ API for Windows x64. Use this if you want to call LLE directly from C++.
+- **`HGR.Native.Cu118`** *(C++ / native)*  
+  Native runtime + C++ API for Windows x64. Use this if you want to call HGR directly from C++.
 
-- **`LLE.Managed.Cuda118`** *(C# / .NET)*  
+- **`HGR.Managed.Cuda118`** *(C# / .NET)*  
   A managed wrapper (C++/CLI) around the native runtime for a smoother .NET experience on Windows x64.
 
 > Both packages target **Windows x64**. GPU inference requires a compatible NVIDIA GPU environment (see below).
 
-## Sample Result (Before / After)
-
-A quick visual comparison using the bundled sample images.
-
-| Low-light input | Enhanced output |
-| --- | --- |
-| ![low_61](https://github.com/gellston/LLE/blob/main/samples/low_61.png?raw=true) | ![enhanced_low_61](https://github.com/gellston/LLE/blob/main/samples/enhanced_low_61.png?raw=true) |
-
-> If images don’t render on NuGet.org, switch these URLs to raw links:
-> - https://raw.githubusercontent.com/gellston/LLE/main/samples/low_61.png
-> - https://raw.githubusercontent.com/gellston/LLE/main/samples/enhanced_low_61.png
-
-### Model Support (Now / Next)
-- **Current**: Low-light enhancement inference (native runtime)
-- **Planned**: Support **improved low-light enhancement models** over time (quality / speed / size trade-offs),
-  and expand model options as the project evolves.
-
-> LLE is not a one-off release. Model quality and available variants may improve through updates.
+## Demonstration
+https://www.youtube.com/watch?v=CjE8BRevUUY
 
 ### Training Scripts
 - Training scripts used for model development are available here:
-  * https://github.com/gellston/LLE/tree/main/python
+  * https://github.com/gellston/HGR/tree/main/python
 
 ### Dataset
-- This project used the **LOLI-Street** low-light street image dataset:
-  * https://www.kaggle.com/datasets/tanvirnwu/loli-street-low-light-image-enhancement-of-street
+- This project used the **Jester-Dataset** :
+  * https://www.qualcomm.com/developer/software/jester-dataset
 
 ---
 
@@ -118,7 +104,7 @@ A quick visual comparison using the bundled sample images.
   https://developer.nvidia.com/compute/cudnn/secure/8.5.0/local_installers/11.7/cudnn-windows-x86_64-8.5.0.96_cuda11-archive.zip
 
 ### CPU + CUDA Mixed Usage (Important)
-- `LLE.Native.Cu118` and `LLE.Managed.Cu118`  can be used in a **mixed mode**:
+- `HGR.Native.Cu118` and `HGR.Managed.Cu118`  can be used in a **mixed mode**:
   - You can run **CPU inference** regardless of CUDA availability.
   - To run **CUDA inference**, you must have a compatible NVIDIA driver + **CUDA 11.8** + **cuDNN 8.5.0.96** installed/configured.
   - This enables **CPU fallback** or choosing **CPU/CUDA per workload**.
@@ -134,7 +120,7 @@ A quick visual comparison using the bundled sample images.
 ## Runtime Dependency (Required)
 
 This library requires a separate **redistribution package** to run (native runtime DLLs, etc.).
-Download and install the redistribution package before using LLE.
+Download and install the redistribution package before using HGR.
 
 - Microsoft Visual C++ Redistributable (Latest Supported):
   https://learn.microsoft.com/ko-kr/cpp/windows/latest-supported-vc-redist?view=msvc-170
@@ -143,15 +129,15 @@ Download and install the redistribution package before using LLE.
 
 ## NuGet Packages
 
-LLE is not a “single one-off release”. The NuGet packages can be **updated over time**
+HGR is not a “single one-off release”. The NuGet packages can be **updated over time**
 (bug fixes, performance improvements, new runtime variants, model upgrades).
 
 Current / planned package list:
 
-- **`LLE.Native.Cu118`** (Windows x64, native runtime, CPU, requires **CUDA 11.8 + cuDNN 8.5.0.96** for GPU)  
-  https://www.nuget.org/packages/LLE.Native.Cu118
-- **`LLE.Managed.Cuda118`** (Windows x64, managed wrapper for .NET / C#; uses the native runtime under the hood)  
-  https://www.nuget.org/packages/LLE.Managed.Cuda118
+- **`HGR.Native.Cu118`** (Windows x64, native runtime, CPU, requires **CUDA 11.8 + cuDNN 8.5.0.96** for GPU)  
+  https://www.nuget.org/packages/HGR.Native.Cu118
+- **`HGR.Managed.Cuda118`** (Windows x64, managed wrapper for .NET / C#; uses the native runtime under the hood)  
+  https://www.nuget.org/packages/HGR.Managed.Cuda118
 
 > The list may expand (e.g., different CUDA versions) and existing packages may receive updates.
 
@@ -162,23 +148,23 @@ Current / planned package list:
 ### C++ (native)
 #### Package Manager
 ```powershell
-Install-Package LLE.Native.Cu118
+Install-Package HGR.Native.Cu118
 ```
 
 #### .NET CLI
 ```bash
-dotnet add package LLE.Native.Cu118
+dotnet add package HGR.Native.Cu118
 ```
 
 ### .NET / C# (managed wrapper)
 #### Package Manager
 ```powershell
-Install-Package LLE.Managed.Cuda118
+Install-Package HGR.Managed.Cuda118
 ```
 
 #### .NET CLI
 ```bash
-dotnet add package LLE.Managed.Cuda118
+dotnet add package HGR.Managed.Cuda118
 ```
 
 ---
@@ -186,84 +172,83 @@ dotnet add package LLE.Managed.Cuda118
 ## Usage in C++
 
 ```cpp
-#include <lle/memoryPool.h>
-#include <lle/image.h>
-#include <lle/lle.h>
 #include <iostream>
+#include <opencv2/opencv.hpp>
+
+
+#include <hgr/hgr.h>
+#include <hgr/clipSampler.h>
 
 int main()
 {
-    try {
-        // create lle instance
-        auto lle = lleapi::v1::lle::create();
-        // load Zero-DCE++ model on CPU
-        // (also supports loading an ONNX model from a file path)
-        lle->setup(lleapi::v1::dlType::zeroDCE, lleapi::v1::device::cpu);
-        // load color image
-        auto input = lleapi::v1::image::imread(
-            "C://github//dataset//lol_dataset//our485//low//low_15.png",
-            lleapi::v1::colorType::color
-        );
-        // predict
-        auto output = lle->predict(input);
-        // save result image
-        lleapi::v1::image::imwrite(
-            "C://github//LLE//LLE//x64//Debug//result1.jpg",
-            output
-        );
-        // cleanup internal instance
-        lle->shutdown();
-    }
-    catch (std::exception ex) {
-        std::cout << ex.what() << std::endl;
-    }
+
+	try {
+
+        auto memoryPool = hgrapi::v1::memoryPool::create();
+
+		auto hgr = hgrapi::v1::hgr::create();
+		hgr->setup("C://github//HGR//python//results//model.onnx", hgrapi::v1::device::cuda);
+        hgr->setEmaAlpha(0.2f);
+
+		auto sampler = hgrapi::v1::clipSampler::create();
+		sampler->setMaxFrames(40);
+		sampler->setSampleFrames(16);
+
+        cv::VideoCapture cap;
+        cap.open(0);
+
+        if (!cap.isOpened()) {
+            std::cerr << "Failed to open VideoCapture.\n";
+            return 1;
+        }
+
+        cv::Mat frame;
+
+        while (true) {
+
+            if (!cap.read(frame) || frame.empty()) {
+                std::cerr << "End of stream or failed to read frame.\n";
+                break;
+            }
+
+            auto dlImage = hgrapi::v1::image::create(frame.cols, frame.rows, 3, memoryPool);
+            std::memcpy(dlImage->data(), frame.data, dlImage->size());
+            auto resizeImage = hgrapi::v1::image::resize(dlImage, 128, 64);
+            sampler->append(resizeImage);
+
+
+            auto samples = sampler->requestSampling();
+            auto result = hgr->predict(samples);
+
+
+            std::cout << "name : " << result.name << " prob : " << result.prob << std::endl;
+
+            cv::imshow("capture", frame);
+            cv::waitKey(1);
+        }
+
+	}
+	catch (std::exception ex) {
+		std::cout << ex.what() << std::endl;
+	}
+
+    return 0;
+
 }
+
 ```
 
 ## Usage in C#
 
 ```csharp
-namespace ManagedTest
-{
-    internal class Program
-    {
-        static void Main(string[] args)
-        {
-            try
-            {
-                //// Create LLE Instance
-                var lle = LLEAPI.V1.LLE.Create();
-                //// load zerodce model and load on cpu
-                //// its also support onnx model load from path
-                lle.Setup(LLEAPI.V1.DlType.ZeroDCE, LLEAPI.V1.Device.Cpu);
-                //// load color image
-                var input = LLEAPI.V1.Image.Imread(
-                    "C://github//dataset//lol_dataset//our485//low//low_15.png", 
-                    LLEAPI.V1.ColorType.Color);
-                //// predict 
-                var output = lle.Predict(input);
-                //// save image file on disk
-                LLEAPI.V1.Image.Imwrite(
-                    "C://github//LLE//LLE//x64//Debug//result1.jpg",
-                    output);
-                //// cleanup internal instance
-                lle.Shutdown();
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine(ex.ToString());
-            }
-        }
-    }
-}
-
+//it will update soon
 ```
 
 ---
 
 ## Roadmap
 
-- [x] Provide a managed NuGet wrapper for **.NET / C#** (**`LLE.Managed.Cuda118`**)
+- [x] Provide a managed NuGet wrapper for **.NET / C#** (**`HGR.Managed.Cuda118`**)
 - [ ] Improve .NET API ergonomics (more idiomatic C# surface)
 - [ ] Add additional runtime variants (e.g., different CUDA versions)
 - [ ] Improve low-light enhancement model quality and provide more model options/variants
@@ -273,7 +258,7 @@ namespace ManagedTest
 ## Research References / Acknowledgements
 
 This project uses ideas and/or model architectures from academic research.
-If you use **LLE** in research, demos, or publications, please consider **citing the original papers**.
+If you use **HGR** in research, demos, or publications, please consider **citing the original papers**.
 
 We sincerely thank the authors and contributors of these works for advancing low-light enhancement research:
 
@@ -296,7 +281,7 @@ We sincerely thank the authors and contributors of these works for advancing low
 
 ## License
 
-This project is licensed under the **MIT License** (for the LLE source code).
+This project is licensed under the **MIT License** (for the HGR source code).
 
 ### Third-party notices (important)
 This distribution may include third-party components and/or binaries.  
