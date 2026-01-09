@@ -4,7 +4,7 @@
     <Platform Name="x86" />
   </Configurations>
   <Folder Name="/API/">
-    <Project Path="HGR.Native.Cu118/HGR.Native.Cu118.vcxproj" />
+    <Project Path="HGR.Native.Cu118/HGR.Native.Cu118.vcxproj" Id="e8222301-6569-4d90-9600-3f587274720d" />
   </Folder>
   <Folder Name="/Console/" />
 </Solution>

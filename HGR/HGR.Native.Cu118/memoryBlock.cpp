@@ -1,0 +1,79 @@
+#include "hgr/memoryBlock.h"
+
+
+#include <stdexcept>
+
+#pragma region IMPL
+namespace hgrapi {
+	namespace v1 {
+		class impl_memoryBlock {
+		public:
+
+			std::vector<uint8_t> buffer;
+
+		};
+	}
+}
+#pragma endregion
+
+
+
+#pragma region Constructor
+hgrapi::v1::memoryBlock::memoryBlock(const std::size_t& size) : impl(new impl_memoryBlock()) {
+
+
+	try {
+
+		if (size <= 0) {
+			throw std::runtime_error("Invalid block size");
+		}
+
+		this->impl->buffer.resize(size);
+
+
+	}
+	catch (...) {
+		throw;
+	}
+}
+#pragma endregion
+
+
+#pragma region Destructor
+hgrapi::v1::memoryBlock::~memoryBlock() {
+
+}
+#pragma endregion
+
+
+#pragma region Public Functions
+uint8_t* hgrapi::v1::memoryBlock::data() {
+
+	if (this->impl->buffer.size() == 0) {
+		throw std::runtime_error("Invalid buffer size");
+	}
+
+
+	return this->impl->buffer.data();
+}
+
+
+std::size_t hgrapi::v1::memoryBlock::size() {
+	return this->impl->buffer.size();
+}
+#pragma endregion
+
+
+#pragma region Static Functions
+hgrapi::v1::memoryBlock_ptr hgrapi::v1::memoryBlock::create(const std::size_t& size) {
+
+	try {
+		auto raw_pointer = new hgrapi::v1::memoryBlock(size);
+		return std::shared_ptr<hgrapi::v1::memoryBlock>(raw_pointer);
+	}
+	catch (...) {
+		throw;
+	}
+}
+#pragma endregion
+

@@ -1,0 +1,14 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Target Name="HGR_CopyNativeDlls" AfterTargets="Build">
+    <ItemGroup>
+      <_HGRDlls Include="$(MSBuildThisFileDirectory)bin\$(Platform)\*.dll" />
+    </ItemGroup>
+
+    <MakeDir Directories="$(OutDir)" Condition="!Exists('$(OutDir)')" />
+
+    <Copy
+      SourceFiles="@(_HGRDlls)"
+      DestinationFolder="$(OutDir)"
+      SkipUnchangedFiles="false" />
+  </Target>
+</Project>
