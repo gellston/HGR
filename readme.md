@@ -254,7 +254,7 @@ int main()
 - [x] Provide a managed NuGet wrapper for **.NET / C#** (**`HGR.Managed.Cuda118`**)
 - [ ] Improve .NET API ergonomics (more idiomatic C# surface)
 - [ ] Add additional runtime variants (e.g., different CUDA versions)
-- [ ] Improve low-light enhancement model quality and provide more model options/variants
+- [ ] Improve hand-gesture recognition model quality and provide more model options/variants
 
 ---
 
@@ -263,20 +263,21 @@ int main()
 This project uses ideas and/or model architectures from academic research.
 If you use **HGR** in research, demos, or publications, please consider **citing the original papers**.
 
-We sincerely thank the authors and contributors of these works for advancing low-light enhancement research:
+This project was influenced by **GhostNet** and **Resource Efficient 3D CNNs**.
+Based on these ideas, we designed a custom **GhostNet3D** module and built the model architecture on top of it.
 
-- **Zero-DCE (CVPR 2020)**  
-  Chunle Guo, Chongyi Li, Jichang Guo, Chen Change Loy, Junhui Hou, Sam Kwong, Runmin Cong  
-  *Zero-Reference Deep Curve Estimation for Low-Light Image Enhancement*  
-  Paper (CVF Open Access): https://openaccess.thecvf.com/content_CVPR_2020/html/Guo_Zero-Reference_Deep_Curve_Estimation_for_Low-Light_Image_Enhancement_CVPR_2020_paper.html  
-  Project page: https://li-chongyi.github.io/Proj_Zero-DCE.html
+We sincerely thank the authors and contributors of these works for advancing efficient neural network research:
 
-- **Zero-DCE++ (TPAMI 2021/2022)** *(used by this API)*  
-  Chongyi Li, Chunle Guo, Chen Change Loy  
-  *Learning to Enhance Low-Light Image via Zero-Reference Deep Curve Estimation*  
-  arXiv: https://arxiv.org/abs/2103.00860  
-  Project page: https://li-chongyi.github.io/Proj_Zero-DCE%2B%2B.html  
-  DOI: https://doi.org/10.1109/TPAMI.2021.3063604
+- **GhostNet (CVPR 2020)**  
+  Kai Han, Yunhe Wang, Qi Tian, Jianyuan Guo, Chunjing Xu, Chang Xu  
+  *GhostNet: More Features from Cheap Operations*  
+  arXiv: https://arxiv.org/abs/1911.11907  
+  Paper (CVF Open Access): https://openaccess.thecvf.com/content_CVPR_2020/papers/Han_GhostNet_More_Features_From_Cheap_Operations_CVPR_2020_paper.pdf  
+
+- **Resource Efficient 3D Convolutional Neural Networks (ICCVW 2019 / arXiv 2019)**  
+  Okan Köpüklü, Neslihan Kose, Ahmet Gunduz, Gerhard Rigoll  
+  *Resource Efficient 3D Convolutional Neural Networks*  
+  arXiv: https://arxiv.org/abs/1904.02422  
 
 > Note: Please also comply with the licenses/terms of any upstream code, weights, and third-party libraries you use or redistribute.
 
