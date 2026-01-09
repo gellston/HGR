@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -47,7 +47,7 @@
     <VCToolsVersion>14.50.35717</VCToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v145</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -76,6 +76,9 @@
     <VcpkgEnableManifest>true</VcpkgEnableManifest>
   </PropertyGroup>
   <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <VcpkgInstalledDir>$(SolutionDir)\vcpkg_installed</VcpkgInstalledDir>
+  </PropertyGroup>
+  <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <VcpkgInstalledDir>$(SolutionDir)\vcpkg_installed</VcpkgInstalledDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -160,17 +163,25 @@ copy /Y "$(OutDir)zlib1.dll" "$(SolutionDir)HGR.Native.Cu118.Package\build\nativ
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="HGR.Native.Cu118.cpp" />
+    <ClCompile Include="clipSampler.cpp" />
     <ClCompile Include="memoryPool.cpp" />
     <ClCompile Include="memoryBlock.cpp" />
     <ClCompile Include="memoryToken.cpp" />
     <ClCompile Include="image.cpp" />
+    <ClCompile Include="hgr.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="hgr\clipSampler.h" />
+    <ClInclude Include="hgr\hgr.h" />
     <ClInclude Include="hgr\hgr_api.h" />
     <ClInclude Include="hgr\image.h" />
     <ClInclude Include="hgr\memoryBlock.h" />
     <ClInclude Include="hgr\memoryPool.h" />
     <ClInclude Include="hgr\memoryToken.h" />
+    <ClInclude Include="models\ghost3d.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

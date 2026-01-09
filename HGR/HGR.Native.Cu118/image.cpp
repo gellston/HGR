@@ -7,7 +7,7 @@
 
 
 #pragma region Impl
-namespace lleapi {
+namespace hgrapi {
 	namespace v1 {
 		class impl_image {
 		public:
@@ -19,7 +19,7 @@ namespace lleapi {
 
 			memoryToken_ptr token;
 
-			std::weak_ptr<lleapi::v1::memoryPool> pool;
+			std::weak_ptr<hgrapi::v1::memoryPool> pool;
 		};
 	}
 }
@@ -28,7 +28,7 @@ namespace lleapi {
 
 
 #pragma region Constructor
-lleapi::v1::image::image(const uint32_t& width, const uint32_t& height, const uint32_t& channel, lleapi::v1::memoryPool_ptr pool) : impl(new impl_image()) {
+hgrapi::v1::image::image(const uint32_t& width, const uint32_t& height, const uint32_t& channel, hgrapi::v1::memoryPool_ptr pool) : impl(new impl_image()) {
 	try {
 
 		auto total_size = (std::size_t)width * (std::size_t)height * (std::size_t)channel;
@@ -54,7 +54,7 @@ lleapi::v1::image::image(const uint32_t& width, const uint32_t& height, const ui
 	}
 }
 
-lleapi::v1::image::image(const uint32_t& width, const uint32_t& height, const uint32_t& channel) : impl(new impl_image()) {
+hgrapi::v1::image::image(const uint32_t& width, const uint32_t& height, const uint32_t& channel) : impl(new impl_image()) {
 	try {
 
 		auto total_size = (std::size_t)width * (std::size_t)height * (std::size_t)channel;
@@ -81,14 +81,14 @@ lleapi::v1::image::image(const uint32_t& width, const uint32_t& height, const ui
 
 
 #pragma region Destructor
-lleapi::v1::image::~image() {
+hgrapi::v1::image::~image() {
 
 }
 #pragma endregion
 
 #pragma region Private Functions
 
-std::weak_ptr<lleapi::v1::memoryPool>  lleapi::v1::image::pool() {
+std::weak_ptr<hgrapi::v1::memoryPool>  hgrapi::v1::image::pool() {
 	return this->impl->pool;
 }
 #pragma endregion
@@ -96,43 +96,43 @@ std::weak_ptr<lleapi::v1::memoryPool>  lleapi::v1::image::pool() {
 
 
 #pragma region Public Functions
-uint32_t lleapi::v1::image::width() {
+uint32_t hgrapi::v1::image::width() {
 	return this->impl->width;
 }
 
-uint32_t lleapi::v1::image::height() {
+uint32_t hgrapi::v1::image::height() {
 	return this->impl->height;
 }
 
-uint32_t lleapi::v1::image::channel() {
+uint32_t hgrapi::v1::image::channel() {
 	return this->impl->channel;
 }
 
-uint32_t lleapi::v1::image::stride() {
+uint32_t hgrapi::v1::image::stride() {
 	return this->impl->stride;
 }
 
-uint8_t* lleapi::v1::image::data() {
+uint8_t* hgrapi::v1::image::data() {
 	return this->impl->token->data();
 }
 
-std::size_t lleapi::v1::image::size() {
+std::size_t hgrapi::v1::image::size() {
 	return this->impl->token->size();
 }
 #pragma endregion
 
 #pragma region Static Functions
-lleapi::v1::image_ptr lleapi::v1::image::create(const uint32_t& width, const uint32_t& height, const uint32_t& channel) {
+hgrapi::v1::image_ptr hgrapi::v1::image::create(const uint32_t& width, const uint32_t& height, const uint32_t& channel) {
 	try {
-		return std::shared_ptr<lleapi::v1::image>(new image(width, height, channel));
+		return std::shared_ptr<hgrapi::v1::image>(new image(width, height, channel));
 	}
 	catch (...) {
 		throw;
 	}
 }
-lleapi::v1::image_ptr lleapi::v1::image::create(const uint32_t& width, const uint32_t& height, const uint32_t& channel, memoryPool_ptr pool) {
+hgrapi::v1::image_ptr hgrapi::v1::image::create(const uint32_t& width, const uint32_t& height, const uint32_t& channel, memoryPool_ptr pool) {
 	try {
-		return std::shared_ptr<lleapi::v1::image>(new image(width, height, channel, pool));
+		return std::shared_ptr<hgrapi::v1::image>(new image(width, height, channel, pool));
 	}
 	catch (...) {
 		throw;
@@ -140,7 +140,7 @@ lleapi::v1::image_ptr lleapi::v1::image::create(const uint32_t& width, const uin
 }
 
 
-lleapi::v1::image_ptr lleapi::v1::image::resize(image_ptr& image, const uint32_t& width, const uint32_t& height) {
+hgrapi::v1::image_ptr hgrapi::v1::image::resize(image_ptr& image, const uint32_t& width, const uint32_t& height) {
 	try {
 
 		int cvMatType = CV_8UC3;
@@ -170,13 +170,13 @@ lleapi::v1::image_ptr lleapi::v1::image::resize(image_ptr& image, const uint32_t
 		// 메모리풀이 있을때에만
 		if (!image->pool().expired()) {
 			if (auto pool = image->pool().lock()) {
-				auto result = lleapi::v1::image::create(resizeImage.cols, resizeImage.rows, resizeImage.channels(), pool);
+				auto result = hgrapi::v1::image::create(resizeImage.cols, resizeImage.rows, resizeImage.channels(), pool);
 				std::memcpy(result->data(), resizeImage.data, result->size());
 				return result;
 			}
 		}
 
-		auto result = lleapi::v1::image::create(resizeImage.cols, resizeImage.rows, resizeImage.channels());
+		auto result = hgrapi::v1::image::create(resizeImage.cols, resizeImage.rows, resizeImage.channels());
 		std::memcpy(result->data(), resizeImage.data, result->size());
 		return result;
 	}
@@ -184,7 +184,7 @@ lleapi::v1::image_ptr lleapi::v1::image::resize(image_ptr& image, const uint32_t
 		throw;
 	}
 }
-lleapi::v1::image_ptr lleapi::v1::image::imread(const std::string& path, colorType colorType) {
+hgrapi::v1::image_ptr hgrapi::v1::image::imread(const std::string& path, colorType colorType) {
 	try {
 
 		cv::ImreadModes mode = cv::IMREAD_COLOR;
@@ -205,7 +205,7 @@ lleapi::v1::image_ptr lleapi::v1::image::imread(const std::string& path, colorTy
 			throw std::runtime_error("Invalid image");
 		}
 
-		auto result = lleapi::v1::image::create(image.cols, image.rows, image.channels());
+		auto result = hgrapi::v1::image::create(image.cols, image.rows, image.channels());
 		auto size = image.rows * image.step;
 		std::memcpy(result->data(), image.data, size);
 
@@ -216,7 +216,7 @@ lleapi::v1::image_ptr lleapi::v1::image::imread(const std::string& path, colorTy
 	}
 }
 
-lleapi::v1::image_ptr lleapi::v1::image::imread(const std::string& path, colorType colorType, lleapi::v1::memoryPool_ptr pool) {
+hgrapi::v1::image_ptr hgrapi::v1::image::imread(const std::string& path, colorType colorType, hgrapi::v1::memoryPool_ptr pool) {
 	try {
 
 		cv::ImreadModes mode = cv::IMREAD_COLOR;
@@ -236,7 +236,7 @@ lleapi::v1::image_ptr lleapi::v1::image::imread(const std::string& path, colorTy
 			throw std::runtime_error("Invalid image");
 		}
 
-		auto result = lleapi::v1::image::create(image.cols, image.rows, image.channels(), pool);
+		auto result = hgrapi::v1::image::create(image.cols, image.rows, image.channels(), pool);
 		auto size = image.rows * image.step;
 		std::memcpy(result->data(), image.data, size);
 
@@ -247,7 +247,7 @@ lleapi::v1::image_ptr lleapi::v1::image::imread(const std::string& path, colorTy
 	}
 }
 
-void lleapi::v1::image::imwrite(const std::string& path, image_ptr image) {
+void hgrapi::v1::image::imwrite(const std::string& path, image_ptr image) {
 	try {
 
 		int matType = CV_8UC1;

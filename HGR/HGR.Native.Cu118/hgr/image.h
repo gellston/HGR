@@ -8,7 +8,7 @@
 
 #include "hgr_api.h"
 
-namespace hgreapi {
+namespace hgrapi {
 	namespace v1 {
 
 		enum class colorType {
