@@ -178,10 +178,15 @@ copy /Y "$(OutDir)zlib1.dll" "$(SolutionDir)HGR.Native.Cu118.Package\build\nativ
     <ClInclude Include="hgr\memoryBlock.h" />
     <ClInclude Include="hgr\memoryPool.h" />
     <ClInclude Include="hgr\memoryToken.h" />
-    <ClInclude Include="models\ghost3d.h" />
+    <ClInclude Include="hgr\resource_load.h" />
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\python\results\model.onnx" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="HGR.Native.Cu118.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

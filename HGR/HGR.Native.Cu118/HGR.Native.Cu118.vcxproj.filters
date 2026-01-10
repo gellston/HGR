@@ -59,11 +59,20 @@
     <ClInclude Include="hgr\hgr.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="models\ghost3d.h">
+    <ClInclude Include="resource.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="hgr\resource_load.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="..\..\python\results\model.onnx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="HGR.Native.Cu118.rc">
+      <Filter>리소스 파일</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

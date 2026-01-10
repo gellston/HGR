@@ -34,6 +34,7 @@ namespace hgrapi {
 			/// <returns></returns>
 			HGR_NATIVE_API image(const uint32_t& width, const uint32_t& height, const uint32_t& channel);
 			HGR_NATIVE_API image(const uint32_t& width, const uint32_t& height, const uint32_t& channel, memoryPool_ptr pool);
+			HGR_NATIVE_API image(const uint32_t& width, const uint32_t& height, const uint32_t& channel, const void * buffer, memoryPool_ptr pool);
 #pragma endregion
 
 #pragma region Private Functions
@@ -89,12 +90,12 @@ namespace hgrapi {
 			HGR_NATIVE_API uint32_t stride();
 
 
-
 #pragma endregion
 
 #pragma region Static Functions
 			HGR_NATIVE_API static image_ptr create(const uint32_t& width, const uint32_t& height, const uint32_t& channel);
 			HGR_NATIVE_API static image_ptr create(const uint32_t& width, const uint32_t& height, const uint32_t& channel, memoryPool_ptr pool);
+			HGR_NATIVE_API static image_ptr create(const uint32_t& width, const uint32_t& height, const uint32_t& channel, const void* buffer, memoryPool_ptr pool);
 			HGR_NATIVE_API static image_ptr resize(image_ptr& image, const uint32_t& width, const uint32_t& height);
 			HGR_NATIVE_API static image_ptr imread(const std::string& path, colorType colorType);
 			HGR_NATIVE_API static image_ptr imread(const std::string& path, colorType colorType, memoryPool_ptr pool);

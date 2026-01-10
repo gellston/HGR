@@ -1,9 +1,10 @@
 
 #include "hgr/hgr.h"
 #include "hgr/memoryPool.h"
+#include "hgr/resource_load.h"
 
 // Models
-#include "models/ghost3d.h"
+#include "resource.h"
 
 #include <onnxruntime_cxx_api.h>
 #include <opencv2/opencv.hpp>
@@ -15,6 +16,16 @@
 #include <algorithm>
 #include <cmath>
 #include <limits>
+
+
+HMODULE GetThisModule();
+
+ResourceView GetOnnxModelBytes()
+{
+    // RCDATA е╦ют
+    return LoadResourceView(GetThisModule(), IDR_GHOST3D1, L"ghost3d");
+}
+
 
 namespace hgrapi {
     namespace v1 {
@@ -206,11 +217,11 @@ void hgrapi::v1::hgr::setup(hgrapi::v1::dlType delType, hgrapi::v1::device _devi
         }
 
         switch (delType) {
-        case hgrapi::v1::dlType::ghost3d:
-            // NOTE: your code uses `zerodce` here; keep as-is if that's your embedded model blob name.
-            // Replace with your actual embedded bytes symbol for ghost3d.
-            //impl->session = std::make_unique<Ort::Session>(*impl->env, zerodce, sizeof(zerodce), impl->so);
+        case hgrapi::v1::dlType::ghost3d: {
+            auto resourceView = GetOnnxModelBytes();
+            impl->session = std::make_unique<Ort::Session>(*impl->env, resourceView.data, resourceView.size, impl->so);
             break;
+        }
         default:
             throw std::runtime_error("Unsupported dlType");
         }

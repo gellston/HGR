@@ -77,6 +77,37 @@ hgrapi::v1::image::image(const uint32_t& width, const uint32_t& height, const ui
 		throw;
 	}
 }
+
+
+hgrapi::v1::image::image(const uint32_t& width, const uint32_t& height, const uint32_t& channel, const void* buffer, memoryPool_ptr pool) : impl(new impl_image()) {
+	try {
+
+		auto total_size = (std::size_t)width * (std::size_t)height * (std::size_t)channel;
+		auto stride = (uint32_t)width * (uint32_t)channel;
+
+		if (stride == 0 || total_size == 0) {
+			throw std::runtime_error("Invalid size");
+		}
+
+
+		this->impl->token = pool->acquire(total_size);
+		this->impl->stride = stride;
+		this->impl->width = width;
+		this->impl->height = height;
+		this->impl->channel = channel;
+
+
+		this->impl->pool = pool;
+
+
+
+		std::memcpy(this->impl->token->data(), buffer, this->impl->token->size());
+
+	}
+	catch (...) {
+		throw;
+	}
+}
 #pragma endregion
 
 
@@ -133,6 +164,14 @@ hgrapi::v1::image_ptr hgrapi::v1::image::create(const uint32_t& width, const uin
 hgrapi::v1::image_ptr hgrapi::v1::image::create(const uint32_t& width, const uint32_t& height, const uint32_t& channel, memoryPool_ptr pool) {
 	try {
 		return std::shared_ptr<hgrapi::v1::image>(new image(width, height, channel, pool));
+	}
+	catch (...) {
+		throw;
+	}
+}
+hgrapi::v1::image_ptr hgrapi::v1::image::create(const uint32_t& width, const uint32_t& height, const uint32_t& channel, const void * buffer, memoryPool_ptr pool) {
+	try {
+		return std::shared_ptr<hgrapi::v1::image>(new image(width, height, channel, buffer, pool));
 	}
 	catch (...) {
 		throw;
