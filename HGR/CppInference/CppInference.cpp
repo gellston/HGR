@@ -13,7 +13,7 @@ int main()
         auto memoryPool = hgrapi::v1::memoryPool::create();
 
         auto hgr = hgrapi::v1::hgr::create();
-        hgr->setup("C://github//HGR//python//results//model.onnx", hgrapi::v1::device::cuda);
+        hgr->setup(hgrapi::v1::dlType::ghost3d, hgrapi::v1::device::cuda);
         hgr->setEmaAlpha(0.2f);
 
         auto sampler = hgrapi::v1::clipSampler::create();

@@ -1,14 +1,36 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Target Name="HGR_CopyNativeDlls" AfterTargets="Build">
+  <PropertyGroup>
+    <HGRNativeRoot>$(MSBuildThisFileDirectory)</HGRNativeRoot>
+
+    <!-- HGR: config-specific -->
+    <HGRBinDir>$(HGRNativeRoot)bin\x64\$(Configuration)</HGRBinDir>
+
+    <!-- ORT: shared -->
+    <HGROrtDir>$(HGRNativeRoot)bin\x64</HGROrtDir>
+
+    <HGRCopyDestDir Condition="'$(TargetDir)'!=''">$(TargetDir)</HGRCopyDestDir>
+    <HGRCopyDestDir Condition="'$(TargetDir)'==''">$(OutDir)</HGRCopyDestDir>
+  </PropertyGroup>
+
+  <Target Name="HGR_CopyNativeDlls" AfterTargets="Link">
     <ItemGroup>
-      <_HGRDlls Include="$(MSBuildThisFileDirectory)bin\$(Platform)\*.dll" />
+      <!-- HGR dll (Debug/Release) -->
+      <_HGRDlls Include="$(HGRBinDir)\HGR.Native.Cu118.dll" Condition="Exists('$(HGRBinDir)\HGR.Native.Cu118.dll')" />
+
+      <!-- ORT dlls (shared, copy once per build) -->
+      <_HGROrtDlls Include="$(HGROrtDir)\onnxruntime*.dll" Condition="Exists('$(HGROrtDir)')" />
     </ItemGroup>
 
-    <MakeDir Directories="$(OutDir)" Condition="!Exists('$(OutDir)')" />
+    <MakeDir Directories="$(HGRCopyDestDir)" Condition="!Exists('$(HGRCopyDestDir)')" />
 
-    <Copy
-      SourceFiles="@(_HGRDlls)"
-      DestinationFolder="$(OutDir)"
-      SkipUnchangedFiles="false" />
+    <Copy SourceFiles="@(_HGRDlls)"
+          DestinationFolder="$(HGRCopyDestDir)"
+          SkipUnchangedFiles="true"
+          Condition="'@(_HGRDlls)'!=''" />
+
+    <Copy SourceFiles="@(_HGROrtDlls)"
+          DestinationFolder="$(HGRCopyDestDir)"
+          SkipUnchangedFiles="true"
+          Condition="'@(_HGROrtDlls)'!=''" />
   </Target>
 </Project>

@@ -77,9 +77,11 @@
   </PropertyGroup>
   <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <VcpkgInstalledDir>$(SolutionDir)\vcpkg_installed</VcpkgInstalledDir>
+    <VcpkgTriplet>x64-windows-static-md</VcpkgTriplet>
   </PropertyGroup>
   <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <VcpkgInstalledDir>$(SolutionDir)\vcpkg_installed</VcpkgInstalledDir>
+    <VcpkgTriplet>x64-windows-static-md</VcpkgTriplet>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -125,8 +127,41 @@
       <AdditionalDependencies>onnxruntime.lib;onnxruntime_providers_cuda.lib;onnxruntime_providers_shared.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /Y /E /I "$(SolutionDir)packages\Microsoft.ML.OnnxRuntime.Gpu.Windows.1.17.3\runtimes\win-x64\native\*.dll" "$(OutDir)"
-</Command>
+      <Command>REM =========================================================
+REM 1) (로컬 실행 테스트용) ORT GPU dll을 내 프로젝트 OutDir로 복사
+REM =========================================================
+xcopy /Y "$(SolutionDir)packages\Microsoft.ML.OnnxRuntime.Gpu.Windows.1.17.3\runtimes\win-x64\native\*.dll" "$(OutDir)"
+
+REM =========================================================
+REM 2) Native 패키지: include 복사
+REM =========================================================
+xcopy /Y /E /I "$(SolutionDir)HGR.Native.Cu118\hgr" "$(SolutionDir)HGR.Native.Cu118.Package\build\native\include\hgr"
+
+REM =========================================================
+REM 3) Native 패키지: HGR lib/dll은 Debug/Release 분리해서 복사
+REM (절대 OutDir 전체 *.dll/*.lib 복사하지 말 것)
+REM =========================================================
+xcopy /Y "$(OutDir)HGR.Native.Cu118.lib" "$(SolutionDir)HGR.Native.Cu118.Package\build\native\lib\x64\$(Configuration)\"
+xcopy /Y "$(OutDir)HGR.Native.Cu118.dll" "$(SolutionDir)HGR.Native.Cu118.Package\build\native\bin\x64\$(Configuration)\"
+
+REM =========================================================
+REM 4) Native 패키지: ORT dll은 공용 bin\x64에 "한 번만" 복사
+REM    (Debug/Release 중복 제거 -&gt; 패키지 크기 절반 효과)
+REM =========================================================
+xcopy /Y "$(SolutionDir)packages\Microsoft.ML.OnnxRuntime.Gpu.Windows.1.17.3\runtimes\win-x64\native\onnxruntime.dll" "$(SolutionDir)HGR.Native.Cu118.Package\build\native\bin\x64\"
+xcopy /Y "$(SolutionDir)packages\Microsoft.ML.OnnxRuntime.Gpu.Windows.1.17.3\runtimes\win-x64\native\onnxruntime_providers_cuda.dll" "$(SolutionDir)HGR.Native.Cu118.Package\build\native\bin\x64\"
+xcopy /Y "$(SolutionDir)packages\Microsoft.ML.OnnxRuntime.Gpu.Windows.1.17.3\runtimes\win-x64\native\onnxruntime_providers_shared.dll" "$(SolutionDir)HGR.Native.Cu118.Package\build\native\bin\x64\"
+xcopy /Y "$(SolutionDir)packages\Microsoft.ML.OnnxRuntime.Gpu.Windows.1.17.3\runtimes\win-x64\native\onnxruntime_providers_tensorrt.dll" "$(SolutionDir)HGR.Native.Cu118.Package\build\native\bin\x64\"
+
+REM =========================================================
+REM 5) Managed 패키지: "HGR 네이티브 dll만" 구성별로 복사 (ORT는 중복포함 X)
+REM =========================================================
+xcopy /Y "$(OutDir)HGR.Native.Cu118.dll" "$(SolutionDir)HGR.Managed.Cu118.Package\runtimes\win-x64\native\$(Configuration)\"
+
+xcopy /Y "$(SolutionDir)packages\Microsoft.ML.OnnxRuntime.Gpu.Windows.1.17.3\runtimes\win-x64\native\onnxruntime.dll" "$(SolutionDir)HGR.Managed.Cu118.Package\runtimes\win-x64\native"
+xcopy /Y "$(SolutionDir)packages\Microsoft.ML.OnnxRuntime.Gpu.Windows.1.17.3\runtimes\win-x64\native\onnxruntime_providers_cuda.dll" "$(SolutionDir)HGR.Managed.Cu118.Package\runtimes\win-x64\native"
+xcopy /Y "$(SolutionDir)packages\Microsoft.ML.OnnxRuntime.Gpu.Windows.1.17.3\runtimes\win-x64\native\onnxruntime_providers_shared.dll" "$(SolutionDir)HGR.Managed.Cu118.Package\runtimes\win-x64\native"
+xcopy /Y "$(SolutionDir)packages\Microsoft.ML.OnnxRuntime.Gpu.Windows.1.17.3\runtimes\win-x64\native\onnxruntime_providers_tensorrt.dll" "$(SolutionDir)HGR.Managed.Cu118.Package\runtimes\win-x64\native"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -147,18 +182,41 @@
       <AdditionalDependencies>onnxruntime.lib;onnxruntime_providers_cuda.lib;onnxruntime_providers_shared.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /Y /E /I "$(SolutionDir)packages\Microsoft.ML.OnnxRuntime.Gpu.Windows.1.17.3\runtimes\win-x64\native\*.dll" "$(OutDir)"
+      <Command>REM =========================================================
+REM 1) (로컬 실행 테스트용) ORT GPU dll을 내 프로젝트 OutDir로 복사
+REM =========================================================
+xcopy /Y "$(SolutionDir)packages\Microsoft.ML.OnnxRuntime.Gpu.Windows.1.17.3\runtimes\win-x64\native\*.dll" "$(OutDir)"
+
+REM =========================================================
+REM 2) Native 패키지: include 복사
+REM =========================================================
 xcopy /Y /E /I "$(SolutionDir)HGR.Native.Cu118\hgr" "$(SolutionDir)HGR.Native.Cu118.Package\build\native\include\hgr"
-xcopy /Y /E /I "$(OutDir)*.lib" "$(SolutionDir)HGR.Native.Cu118.Package\build\native\lib\x64\"
-xcopy /Y /E /I "$(OutDir)*.dll" "$(SolutionDir)HGR.Native.Cu118.Package\build\native\bin\x64\"
 
+REM =========================================================
+REM 3) Native 패키지: HGR lib/dll은 Debug/Release 분리해서 복사
+REM (절대 OutDir 전체 *.dll/*.lib 복사하지 말 것)
+REM =========================================================
+xcopy /Y "$(OutDir)HGR.Native.Cu118.lib" "$(SolutionDir)HGR.Native.Cu118.Package\build\native\lib\x64\$(Configuration)\"
+xcopy /Y "$(OutDir)HGR.Native.Cu118.dll" "$(SolutionDir)HGR.Native.Cu118.Package\build\native\bin\x64\$(Configuration)\"
 
+REM =========================================================
+REM 4) Native 패키지: ORT dll은 공용 bin\x64에 "한 번만" 복사
+REM    (Debug/Release 중복 제거 -&gt; 패키지 크기 절반 효과)
+REM =========================================================
+xcopy /Y "$(SolutionDir)packages\Microsoft.ML.OnnxRuntime.Gpu.Windows.1.17.3\runtimes\win-x64\native\onnxruntime.dll" "$(SolutionDir)HGR.Native.Cu118.Package\build\native\bin\x64\"
+xcopy /Y "$(SolutionDir)packages\Microsoft.ML.OnnxRuntime.Gpu.Windows.1.17.3\runtimes\win-x64\native\onnxruntime_providers_cuda.dll" "$(SolutionDir)HGR.Native.Cu118.Package\build\native\bin\x64\"
+xcopy /Y "$(SolutionDir)packages\Microsoft.ML.OnnxRuntime.Gpu.Windows.1.17.3\runtimes\win-x64\native\onnxruntime_providers_shared.dll" "$(SolutionDir)HGR.Native.Cu118.Package\build\native\bin\x64\"
+xcopy /Y "$(SolutionDir)packages\Microsoft.ML.OnnxRuntime.Gpu.Windows.1.17.3\runtimes\win-x64\native\onnxruntime_providers_tensorrt.dll" "$(SolutionDir)HGR.Native.Cu118.Package\build\native\bin\x64\"
 
-xcopy /Y /E /I "$(OutDir)*.dll" "$(SolutionDir)HGR.Managed.Cu118.Package\runtimes\win-x64\native\"
+REM =========================================================
+REM 5) Managed 패키지: "HGR 네이티브 dll만" 구성별로 복사 (ORT는 중복포함 X)
+REM =========================================================
+xcopy /Y "$(OutDir)HGR.Native.Cu118.dll" "$(SolutionDir)HGR.Managed.Cu118.Package\runtimes\win-x64\native\$(Configuration)\"
 
-copy /Y "$(OutDir)zlib1.dll" "$(SolutionDir)HGR.Managed.Cu118.Package\runtimes\win-x64\native\zlibwapi.dll"
-copy /Y "$(OutDir)zlib1.dll" "$(SolutionDir)HGR.Native.Cu118.Package\build\native\bin\x64\zlibwapi.dll"
-</Command>
+xcopy /Y "$(SolutionDir)packages\Microsoft.ML.OnnxRuntime.Gpu.Windows.1.17.3\runtimes\win-x64\native\onnxruntime.dll" "$(SolutionDir)HGR.Managed.Cu118.Package\runtimes\win-x64\native"
+xcopy /Y "$(SolutionDir)packages\Microsoft.ML.OnnxRuntime.Gpu.Windows.1.17.3\runtimes\win-x64\native\onnxruntime_providers_cuda.dll" "$(SolutionDir)HGR.Managed.Cu118.Package\runtimes\win-x64\native"
+xcopy /Y "$(SolutionDir)packages\Microsoft.ML.OnnxRuntime.Gpu.Windows.1.17.3\runtimes\win-x64\native\onnxruntime_providers_shared.dll" "$(SolutionDir)HGR.Managed.Cu118.Package\runtimes\win-x64\native"
+xcopy /Y "$(SolutionDir)packages\Microsoft.ML.OnnxRuntime.Gpu.Windows.1.17.3\runtimes\win-x64\native\onnxruntime_providers_tensorrt.dll" "$(SolutionDir)HGR.Managed.Cu118.Package\runtimes\win-x64\native"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
