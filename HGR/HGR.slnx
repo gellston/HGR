@@ -23,6 +23,12 @@
     <Project Path="CSharpInference/CSharpInference.csproj" Id="fb691402-6df9-43df-9a20-e94b8514cef2">
       <Platform Solution="*|x64" Project="x64" />
     </Project>
+    <Project Path="FSharpInference/FSharpInference.fsproj" Id="eefcf61b-7e75-4f4a-a2ea-a0a088633358">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="VBInference/VBInference.vbproj" Id="0bfe05b6-4c61-40dd-a58b-39aad97fcd3c">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
   </Folder>
   <Project Path="HGRViewer/HGRViewer.csproj" Id="f021040b-2cf5-4169-96d9-a86c75b58df3">
     <Platform Solution="*|x64" Project="x64" />
