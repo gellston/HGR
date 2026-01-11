@@ -3,32 +3,24 @@
     <!-- Managed 패키지의 runtimes/win-x64/native 경로 -->
     <HGRManagedNativeRoot>$(MSBuildThisFileDirectory)..\runtimes\win-x64\native</HGRManagedNativeRoot>
 
-    <!-- 출력 폴더: C++/C#/CLI 모두 TargetDir이 제일 안전 -->
+    <!-- 출력 폴더: exe가 만들어질 경로 -->
     <HGRCopyDestDir Condition="'$(TargetDir)'!=''">$(TargetDir)</HGRCopyDestDir>
     <HGRCopyDestDir Condition="'$(TargetDir)'==''">$(OutDir)</HGRCopyDestDir>
   </PropertyGroup>
 
   <Target Name="CopyNativeBinariesFromNuGet" AfterTargets="Build">
     <ItemGroup>
-      <!-- HGR 네이티브 DLL: 구성별 -->
-      <_HgrNativeDll Include="$(HGRManagedNativeRoot)\$(Configuration)\HGR.Native.Cu118.dll"
-                     Condition="Exists('$(HGRManagedNativeRoot)\$(Configuration)\HGR.Native.Cu118.dll')" />
-
-      <!-- ONNX Runtime DLL: 공용(중복 없음) -->
-      <_OrtDlls Include="$(HGRManagedNativeRoot)\*.dll"
-                Condition="Exists('$(HGRManagedNativeRoot)')" />
+      <!-- native 폴더(및 하위 폴더) 내 모든 DLL: Debug/Release 상관없음 -->
+      <_NativeDlls Include="$(HGRManagedNativeRoot)\**\*.dll"
+                  Condition="Exists('$(HGRManagedNativeRoot)')" />
     </ItemGroup>
 
-    <MakeDir Directories="$(HGRCopyDestDir)" Condition="!Exists('$(HGRCopyDestDir)')" />
+    <MakeDir Directories="$(HGRCopyDestDir)"
+             Condition="!Exists('$(HGRCopyDestDir)')" />
 
-    <Copy SourceFiles="@(_HgrNativeDll)"
+    <Copy SourceFiles="@(_NativeDlls)"
           DestinationFolder="$(HGRCopyDestDir)"
           SkipUnchangedFiles="true"
-          Condition="'@(_HgrNativeDll)'!=''" />
-
-    <Copy SourceFiles="@(_OrtDlls)"
-          DestinationFolder="$(HGRCopyDestDir)"
-          SkipUnchangedFiles="true"
-          Condition="'@(_OrtDlls)'!=''" />
+          Condition="'@(_NativeDlls)'!=''" />
   </Target>
 </Project>

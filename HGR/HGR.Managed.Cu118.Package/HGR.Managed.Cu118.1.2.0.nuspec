@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
     <id>HGR.Managed.Cu118</id>
-    <version>1.1.4</version>
+    <version>1.2.0</version>
     <title></title>
     <authors>gellston</authors>
     <owners></owners>
@@ -27,8 +27,7 @@
     <file src="licenses\onnxruntime-LICENSE.txt" target="licenses\onnxruntime-LICENSE.txt" />
     <file src="licenses\onnxruntime-ThirdPartyNotices.txt" target="licenses\onnxruntime-ThirdPartyNotices.txt" />
     <file src="licenses\opencv-LICENSE.txt" target="licenses\opencv-LICENSE.txt" />
-    <file src="runtimes\win-x64\native\Debug\HGR.Native.Cu118.dll" target="runtimes\win-x64\native\Debug\HGR.Native.Cu118.dll" />
-    <file src="runtimes\win-x64\native\Release\HGR.Native.Cu118.dll" target="runtimes\win-x64\native\Release\HGR.Native.Cu118.dll" />
+    <file src="runtimes\win-x64\native\HGR.Native.Cu118.dll" target="runtimes\win-x64\native\HGR.Native.Cu118.dll" />
     <file src="runtimes\win-x64\native\Ijwhost.dll" target="runtimes\win-x64\native\Ijwhost.dll" />
     <file src="runtimes\win-x64\native\onnxruntime.dll" target="runtimes\win-x64\native\onnxruntime.dll" />
     <file src="runtimes\win-x64\native\onnxruntime_providers_cuda.dll" target="runtimes\win-x64\native\onnxruntime_providers_cuda.dll" />

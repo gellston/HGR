@@ -6,17 +6,260 @@
              xmlns:local="clr-namespace:HGRViewer.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
-             >
+             xmlns:models="clr-namespace:HGRViewer.Models"
+             xmlns:convMVVM2="https://github.com/gellston/ConvMVVM2"
+             convMVVM2:ViewModelLocator.AutoWireViewModel="True"
+             convMVVM2:ViewModelLocator.UseNamePatternMapper="True"
+             convMVVM2:ViewModelLocator.UseViewModelMapper="False">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Resources/Style.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <convMVVM2:InverseBoolConverter x:Key="InverseBoolConverter"></convMVVM2:InverseBoolConverter>
+        </ResourceDictionary>
+    </UserControl.Resources>
 
     <DockPanel>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="5*"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
+        <Border DockPanel.Dock="Top"
+                CornerRadius="8"
+                Height="60"
+                Background="#262626"
+                Padding="{StaticResource Space.S}"
+                Margin="9,9,9,0">
 
-            <Image></Image>
-        </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="100"></ColumnDefinition>
+                    <ColumnDefinition Width="80"></ColumnDefinition>
+                    <ColumnDefinition Width="80"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Menu Background="Transparent">
+                    
+                    <MenuItem ToolTipService.BetweenShowDelay="0"
+                              ToolTipService.InitialShowDelay="0"
+                              ToolTip="Camera"
+                              Command="{Binding PlayCommand}"
+                              IsEnabled="{Binding IsPlaying, Converter={StaticResource InverseBoolConverter}}">
+                        <MenuItem.Header>
+                            <Image Source="/Images/play.png"></Image>
+                        </MenuItem.Header>
+                    </MenuItem>
+
+                    <MenuItem ToolTipService.BetweenShowDelay="0"
+                              ToolTipService.InitialShowDelay="0"
+                              ToolTip="Camera"
+                              Command="{Binding StopCommand}"
+                              IsEnabled="{Binding IsPlaying}">
+                        <MenuItem.Header>
+                            <Image Source="/Images/stop.png"></Image>
+                        </MenuItem.Header>
+                    </MenuItem>
+                </Menu>
+
+                <ComboBox Grid.Column="1"
+                          ItemsSource="{Binding DeviceCollection}"
+                          SelectedIndex="0"
+                          SelectedValue="{Binding SelectedDevice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                </ComboBox>
+
+                <Button Grid.Column="2"
+                        Width="70"
+                        Height="35"
+                        Margin="5"
+                        ToolTipService.BetweenShowDelay="0"
+                        ToolTipService.InitialShowDelay="0"
+                        ToolTip="On"
+                        Command="{Binding SetupCommand}"
+                        IsEnabled="{Binding Converter={StaticResource InverseBoolConverter}, Path=IsInitialized}">
+                    <Image Source="/Images/on.png"></Image>
+                </Button>
+                <Button Grid.Column="3"
+                        Width="70"
+                        Height="35"
+                        Margin="5"
+                        ToolTipService.BetweenShowDelay="0"
+                        ToolTipService.InitialShowDelay="0"
+                        ToolTip="Off"
+                        Command="{Binding ShutdownCommand}"
+                        IsEnabled="{Binding Path=IsInitialized}">
+                    <Image Source="/Images/off.png"></Image>
+                </Button>
+            </Grid>
+
+        </Border>
+
+
+
+        <Border CornerRadius="8"
+                Background="#262626"
+                Padding="{StaticResource Space.S}"
+                Margin="{StaticResource Space.M}">
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+
+                <Border Background="#1f1f1f"
+                            Margin="10"
+                            CornerRadius="10"
+                            Grid.Column="0"></Border>
+                <Image Source="{Binding CurrentFrame}"
+                           Stretch="Uniform"
+                           Margin="20"
+                           Grid.Column="0"></Image>
+
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="4*"></RowDefinition>
+                        <RowDefinition Height="1*"></RowDefinition>
+                    </Grid.RowDefinitions>
+
+
+
+                    <Border Background="#1f1f1f"
+                            Margin="10"
+                            CornerRadius="10"
+                            Grid.Row="0"></Border>
+
+                    <ItemsControl Grid.Row="0"
+                                  Margin="20"
+                                  VerticalAlignment="Center"
+                                  ScrollViewer.VerticalScrollBarVisibility="Visible"
+                                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                  ScrollViewer.CanContentScroll="True"
+                                  Background="Transparent"
+                                  BorderBrush="Transparent"
+                                  ItemsSource="{Binding PredictionCollection}">
+                        <ItemsControl.Resources>
+                            <DataTemplate DataType="{x:Type models:Prediction}">
+                                <Border Grid.Column="0"
+                                        BorderBrush="#dde1e3"
+                                        BorderThickness="1">
+                                    <Grid Height="20">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="{Binding Name}"
+                                                   Grid.Column="0"></TextBlock>
+                                        <ProgressBar Grid.Column="1"
+                                                     Value="{Binding Score}"
+                                                     Height="10"
+                                                     Maximum="100"></ProgressBar>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.Resources>
+                        
+                    </ItemsControl>
+
+
+                    <Border Background="#1f1f1f"
+                            Margin="10"
+                            CornerRadius="10"
+                            Grid.Row="1"></Border>
+
+                    <Grid Grid.Row="1"
+                          Margin="20">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
+                        <Image Source="/Images/net_dev.png"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Stretch="Uniform"
+                               Grid.Column="0">
+                            <Image.RenderTransform>
+                                <ScaleTransform ScaleX="1" ScaleY="1"/>
+                            </Image.RenderTransform>
+
+                            <Image.Style>
+                                <Style TargetType="Image">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsZooming, Converter={StaticResource InverseBoolConverter}}" Value="True">
+                                            <DataTrigger.EnterActions>
+                                                <BeginStoryboard>
+                                                    <Storyboard>
+                                                        <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+                                                                         To="0.7" Duration="0:0:0.2"/>
+                                                        <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+                                                                         To="0.7" Duration="0:0:0.2"/>
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </DataTrigger.EnterActions>
+
+                                            <DataTrigger.ExitActions>
+                                                <BeginStoryboard>
+                                                    <Storyboard>
+                                                        <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+                                                                          To="1.0" Duration="0:0:0.2"/>
+                                                        <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+                                                                         To="1.0" Duration="0:0:0.2"/>
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </DataTrigger.ExitActions>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Image.Style>
+                        </Image>
+                        
+                        <Image Source="/Images/ilovedotnet.png"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Stretch="Uniform"
+                               Grid.Column="1">
+                            <Image.RenderTransform>
+                                <ScaleTransform ScaleX="1" ScaleY="1"/>
+                            </Image.RenderTransform>
+
+                            <Image.Style>
+                                <Style TargetType="Image">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsZooming}" Value="True">
+                                            <DataTrigger.EnterActions>
+                                                <BeginStoryboard>
+                                                    <Storyboard>
+                                                        <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+                                                                         To="0.7" Duration="0:0:0.2"/>
+                                                        <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+                                                                         To="0.7" Duration="0:0:0.2"/>
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </DataTrigger.EnterActions>
+
+                                            <DataTrigger.ExitActions>
+                                                <BeginStoryboard>
+                                                    <Storyboard>
+                                                        <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+                                                                         To="1.0" Duration="0:0:0.2"/>
+                                                        <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+                                                                         To="1.0" Duration="0:0:0.2"/>
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </DataTrigger.ExitActions>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Image.Style>
+                        </Image>
+                    </Grid>
+                </Grid>
+
+               
+            </Grid>
+           
+
+        </Border>
+
     </DockPanel>
-    
+
 </UserControl>

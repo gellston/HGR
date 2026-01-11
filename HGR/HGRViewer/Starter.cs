@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HGRViewer.Windows;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,8 +18,8 @@ namespace HGRViewer
         {
 
             var host = ConvMVVM2.WPF.Host.ConvMVVM2Host.CreateHost<BootStraper, Application>(args, "App");
-            host.ShutdownMode(ShutdownMode.OnMainWindowClose)
-                .Build()
+            host.Build()
+                .ShutdownMode(ShutdownMode.OnMainWindowClose)
                 .RunApp("MainWindow");
 
         }

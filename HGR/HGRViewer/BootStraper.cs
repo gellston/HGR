@@ -1,4 +1,7 @@
 ﻿using ConvMVVM2.Core.MVVM;
+using HGRViewer.Services;
+using HGRViewer.ViewModels;
+using HGRViewer.Views;
 using HGRViewer.Windows;
 using System;
 using System.Collections.Generic;
@@ -18,6 +21,7 @@ namespace HGRViewer
         protected override void RegionMapping(IRegionManager layerManager)
         {
 
+            layerManager.Mapping<MainView>("MainView");
         }
 
         protected override void RegisterModules()
@@ -31,7 +35,15 @@ namespace HGRViewer
             // Windows
             serviceCollection.AddSingleton<MainWindow>();
 
+            //Views
+            serviceCollection.AddSingleton<MainView>();
 
+            //ViewModels
+            serviceCollection.AddSingleton<MainViewModel>();
+
+
+            //Services
+            serviceCollection.AddSingleton<IHGRService, HGRService>();
 
         }
 

@@ -1,4 +1,4 @@
-<div align="center">
+<div align="center"> 
 
 <img src="https://raw.githubusercontent.com/gellston/HGR/main/icon.png" alt="HGR Icon" width="140" />
 
@@ -53,7 +53,10 @@
 > Both packages target **Windows x64**. GPU inference requires a compatible NVIDIA GPU environment (see below).
 
 ## Demonstration
-https://www.youtube.com/watch?v=CjE8BRevUUY
+[![Image Alt Text](https://img.youtube.com/vi/ks7YK9ZHNCI/hqdefault.jpg)](https://youtu.be/ks7YK9ZHNCI)
+
+
+
 
 ### Training Scripts
 - Training scripts used for model development are available here:
@@ -186,13 +189,13 @@ int main()
 
         auto memoryPool = hgrapi::v1::memoryPool::create();
 
-		auto hgr = hgrapi::v1::hgr::create();
-		hgr->setup("C://github//HGR//python//results//model.onnx", hgrapi::v1::device::cuda);
+        auto hgr = hgrapi::v1::hgr::create();
+        hgr->setup(hgrapi::v1::dlType::ghost3d, hgrapi::v1::device::cuda);
         hgr->setEmaAlpha(0.2f);
 
-		auto sampler = hgrapi::v1::clipSampler::create();
-		sampler->setMaxFrames(40);
-		sampler->setSampleFrames(16);
+        auto sampler = hgrapi::v1::clipSampler::create();
+        sampler->setMaxFrames(40);
+        sampler->setSampleFrames(16);
 
         cv::VideoCapture cap;
         cap.open(0);
@@ -211,8 +214,7 @@ int main()
                 break;
             }
 
-            auto dlImage = hgrapi::v1::image::create(frame.cols, frame.rows, 3, memoryPool);
-            std::memcpy(dlImage->data(), frame.data, dlImage->size());
+            auto dlImage = hgrapi::v1::image::create(frame.cols, frame.rows, 3, frame.data, memoryPool);
             auto resizeImage = hgrapi::v1::image::resize(dlImage, 128, 64);
             sampler->append(resizeImage);
 
@@ -241,7 +243,74 @@ int main()
 ## Usage in C#
 
 ```csharp
-//it will update soon
+using OpenCvSharp;
+
+namespace ManagedTest
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            try
+            {
+                var memoryPool = HGRAPI.V1.MemoryPool.Create();
+                var hgr = HGRAPI.V1.HGR.Create();
+
+                hgr.Setup(HGRAPI.V1.DLType.Ghost3D, HGRAPI.V1.Device.Cuda);
+                hgr.EmaAlpha = 0.2f;
+
+                var sampler = HGRAPI.V1.ClipSampler.Create();
+                sampler.MaxFrames = 40;
+                sampler.SampleFrames = 16;
+
+                using var cap = new VideoCapture(0);
+                if (!cap.IsOpened())
+                {
+                    Console.WriteLine("Failed to open VideoCapture (camera 0).");
+                    return;
+                }
+
+                using var frame = new Mat();
+
+                while (true)
+                {
+                    if (!cap.Read(frame) || frame.Empty())
+                    {
+                        Console.WriteLine("Failed to read frame or empty frame.");
+                        break;
+                    }
+
+
+                    using var dlImage = HGRAPI.V1.Image.Create((uint)frame.Cols, (uint)frame.Rows, 3, frame.Data, memoryPool);
+                    using var resizeImage = HGRAPI.V1.Image.Resize(dlImage, 128, 64);
+                   
+                    sampler.Append(resizeImage);
+
+                    var samples = sampler.RequestSampling();
+                    var result = hgr.Predict(samples);
+
+                    Cv2.ImShow("capture", frame);
+
+                    int key = Cv2.WaitKey(1);
+                    if (key == 27)
+                        break;
+
+                    System.Console.WriteLine("name : {0} prob : {1}", result.Name, result.Prob);
+
+                    HGRAPI.V1.ClipSampler.DisposeImages(samples);
+                }
+
+                cap.Release();
+                Cv2.DestroyAllWindows();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception: {ex}");
+            }
+        }
+    }
+}
+
 ```
 
 ---
@@ -251,7 +320,7 @@ int main()
 - [x] Provide a managed NuGet wrapper for **.NET / C#** (**`HGR.Managed.Cuda118`**)
 - [ ] Improve .NET API ergonomics (more idiomatic C# surface)
 - [ ] Add additional runtime variants (e.g., different CUDA versions)
-- [ ] Improve low-light enhancement model quality and provide more model options/variants
+- [ ] Improve hand-gesture recognition model quality and provide more model options/variants
 
 ---
 
@@ -260,20 +329,21 @@ int main()
 This project uses ideas and/or model architectures from academic research.
 If you use **HGR** in research, demos, or publications, please consider **citing the original papers**.
 
-We sincerely thank the authors and contributors of these works for advancing low-light enhancement research:
+This project was influenced by **GhostNet** and **Resource Efficient 3D CNNs**.
+Based on these ideas, we designed a custom **GhostNet3D** module and built the model architecture on top of it.
 
-- **Zero-DCE (CVPR 2020)**  
-  Chunle Guo, Chongyi Li, Jichang Guo, Chen Change Loy, Junhui Hou, Sam Kwong, Runmin Cong  
-  *Zero-Reference Deep Curve Estimation for Low-Light Image Enhancement*  
-  Paper (CVF Open Access): https://openaccess.thecvf.com/content_CVPR_2020/html/Guo_Zero-Reference_Deep_Curve_Estimation_for_Low-Light_Image_Enhancement_CVPR_2020_paper.html  
-  Project page: https://li-chongyi.github.io/Proj_Zero-DCE.html
+We sincerely thank the authors and contributors of these works for advancing efficient neural network research:
 
-- **Zero-DCE++ (TPAMI 2021/2022)** *(used by this API)*  
-  Chongyi Li, Chunle Guo, Chen Change Loy  
-  *Learning to Enhance Low-Light Image via Zero-Reference Deep Curve Estimation*  
-  arXiv: https://arxiv.org/abs/2103.00860  
-  Project page: https://li-chongyi.github.io/Proj_Zero-DCE%2B%2B.html  
-  DOI: https://doi.org/10.1109/TPAMI.2021.3063604
+- **GhostNet (CVPR 2020)**  
+  Kai Han, Yunhe Wang, Qi Tian, Jianyuan Guo, Chunjing Xu, Chang Xu  
+  *GhostNet: More Features from Cheap Operations*  
+  arXiv: https://arxiv.org/abs/1911.11907  
+  Paper (CVF Open Access): https://openaccess.thecvf.com/content_CVPR_2020/papers/Han_GhostNet_More_Features_From_Cheap_Operations_CVPR_2020_paper.pdf  
+
+- **Resource Efficient 3D Convolutional Neural Networks (ICCVW 2019 / arXiv 2019)**  
+  Okan Köpüklü, Neslihan Kose, Ahmet Gunduz, Gerhard Rigoll  
+  *Resource Efficient 3D Convolutional Neural Networks*  
+  arXiv: https://arxiv.org/abs/1904.02422  
 
 > Note: Please also comply with the licenses/terms of any upstream code, weights, and third-party libraries you use or redistribute.
 

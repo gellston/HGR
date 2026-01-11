@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="HGR.Managed.Cu118" Version="1.1.4" />
+    <PackageReference Include="HGR.Managed.Cu118" Version="1.1.6" />
     <PackageReference Include="OpenCvSharp4.Windows" Version="4.11.0.20250507" />
   </ItemGroup>
 
